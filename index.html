@@ -1,0 +1,79 @@
+<html>
+
+<head>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css' rel='stylesheet' />
+	<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+
+</head>
+
+<body>
+	<div id='map' style='width: 1200px; height: 900px;'></div>
+	<script>
+	   
+
+        const MARKER_TEXT= "Example Marker.<br/>Click to restart counter<br/>Count : "
+	   	// display updated text using counter
+		let count=0
+		let timerHandler=null
+		// generate a sample marker with an image and text element, with a onclick handler
+		function generateMarkerElement(){
+			var mainElement = document.createElement('div');
+			mainElement.id = 'marker';
+			mainElement.style.border='2px solid red';
+			mainElement.style.backgroundColor='rgb(255, 125, 115)';
+			var textElement = document.createElement('div');
+			textElement.id = 'marker-text'
+			textElement.innerHTML= MARKER_TEXT + "1"
+
+			var imgElement = document.createElement('img');
+			imgElement.src="https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png"
+			
+			mainElement.appendChild(imgElement);
+			mainElement.appendChild(textElement);	
+			mainElement.onclick=()=>{
+				count=0;
+			}	
+			return mainElement
+		}
+	   
+
+		function updateMakerWithInterval(markerElement){
+			let textElement=document.getElementById("marker-text");
+			count=0;
+			timerHandler=setInterval(function () {
+				count++;
+			   textElement.innerHTML= MARKER_TEXT+String(count) 
+			}, 1000);
+		}
+	   
+	   
+		//Initialize Mapbox
+		//TODO: Please add your token here
+		mapboxgl.accessToken =
+			'';
+		const map = new mapboxgl.Map({
+			container: 'map', // container ID
+			style: 'mapbox://styles/mapbox/streets-v11', // style URL
+			center: [103.85,1.29], // starting position [lng, lat]
+			zoom: 15, // starting zoom
+			//bearing: -90
+		});
+
+		//Load marker once map is loaded
+		map.on('load', () => {
+	
+			let markerElement= generateMarkerElement()
+			new mapboxgl.Marker(markerElement, {offset:[-25, -25]})
+			.setLngLat([103.85,1.29]) // sets a popup on this marker
+			.addTo(map);
+			updateMakerWithInterval(markerElement)	
+		});
+		
+	</script>
+
+</body>
+
+
+
+</html>
