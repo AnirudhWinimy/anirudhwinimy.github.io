@@ -37,7 +37,7 @@
 			return mainElement
 		}
 	   
-
+		//creates a timer to update marker element
 		function updateMakerWithInterval(markerElement){
 			let textElement=document.getElementById("marker-text");
 			count=0;
@@ -51,7 +51,7 @@
 		//Initialize Mapbox
 		//TODO: Please add your token here
 		mapboxgl.accessToken =
-			'';
+			'pk.eyJ1IjoiYW5pcnVkaDZrIiwiYSI6ImNrdW5tcDliazB1c3IydXRoMXQzMTBlejgifQ.SR2Zb_9G-I2FHOhKTZj5Ww';
 		const map = new mapboxgl.Map({
 			container: 'map', // container ID
 			style: 'mapbox://styles/mapbox/streets-v11', // style URL
